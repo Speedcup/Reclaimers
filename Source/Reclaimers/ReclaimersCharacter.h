@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Logging/LogMacros.h"
+
+#include "Components/StaminaComponent.h"
 #include "Components/HealthComponent.h"
 
 #include "ReclaimersCharacter.generated.h"
@@ -64,43 +66,13 @@ class AReclaimersCharacter : public ACharacter
 	// CHARACTER - HEALTH
 	// 
 	// /** The current health of the character */
-	/*
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float Health;
-	*/
-
-	/** The current health of the character */
-	/*
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float MaxHealth;
-	*/
-
-	/** The rate at which the character will regain health */
-	/*
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float HealthRegeneration;
-	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent* HealthComponent;
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - STAMINA
-
-	/** The character's current stamina */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float Stamina;
-
-	/** The character's current max stamina */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float MaxStamina;
-
-	/** The character's current stamina recovery rate per (1) second */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float StaminaRecovery;
-
-	/** The character's current stamina decay rate per (1) second */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float StaminaDecay;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UStaminaComponent* StaminaComponent;
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HUNGER

@@ -74,20 +74,11 @@ AReclaimersCharacter::AReclaimersCharacter()
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HEALTH
-	/*
-	MaxHealth = 100.0f;
-	Health = MaxHealth;
-	HealthRegeneration = 2.0f;
-	*/
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - STAMINA
-
-	Stamina = 100.0f;
-	MaxStamina = 100.0f;
-	StaminaRecovery = 2.0f;
-	StaminaDecay = 1.0f;
+	StaminaComponent = CreateDefaultSubobject<UStaminaComponent>(TEXT("StaminaComponent"));
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HUNGER

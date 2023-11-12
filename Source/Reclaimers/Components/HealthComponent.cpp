@@ -38,7 +38,7 @@ float UHealthComponent::GetHealth() const {	return Health; }
 // MAX HEALTH
 
 void UHealthComponent::SetMaxHealth(float NewHealth) {
-	Health = FMath::Clamp(NewHealth, 0.0f, 1000.0f);
+	MaxHealth = FMath::Clamp(NewHealth, 0.0f, 1000.0f);
 }
 
 float UHealthComponent::GetMaxHealth() const { return MaxHealth; }

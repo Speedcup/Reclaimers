@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "../Reclaimers.h"
+#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
 
