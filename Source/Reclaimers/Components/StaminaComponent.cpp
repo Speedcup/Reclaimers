@@ -12,8 +12,8 @@ UStaminaComponent::UStaminaComponent()
 
 	Stamina = 100.0f;
 	MaxStamina = 100.0f;
-	StaminaRecovery = 2.0f;
-	StaminaDecay = 1.0f;
+	StaminaRecovery = 2.0f;		// TODO: Add Get/Set Methods
+	StaminaDecay = 1.0f;		// TODO: Add Get/Set Methods
 }
 
 

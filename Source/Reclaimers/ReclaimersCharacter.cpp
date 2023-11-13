@@ -82,10 +82,7 @@ AReclaimersCharacter::AReclaimersCharacter()
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HUNGER
-	
-	Hunger = 100.0f;
-	MaxHunger = 100.0f;
-	HungerDecay = 1.0f;
+	HungerComponent = CreateDefaultSubobject<UHungerComponent>(TEXT("HungerComponent"));
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - THIRST

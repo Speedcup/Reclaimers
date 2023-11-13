@@ -30,19 +30,19 @@ public:
 
 private:
 	/** The character's current stamina */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	float Stamina;
 
 	/** The character's current max stamina */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	float MaxStamina;
 
 	/** The character's current stamina recovery rate per (1) second */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	float StaminaRecovery;
 
 	/** The character's current stamina decay rate per (1) second */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	float StaminaDecay;
 
 protected:

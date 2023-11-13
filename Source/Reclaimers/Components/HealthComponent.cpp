@@ -11,7 +11,7 @@ UHealthComponent::UHealthComponent() {
 
 	MaxHealth = 100.0f;
 	Health = 100.0f;
-	HealthRegeneration = 2.0f;
+	HealthRegeneration = 2.0f;		// TODO: Add Get/Set Methods
 }
 
 

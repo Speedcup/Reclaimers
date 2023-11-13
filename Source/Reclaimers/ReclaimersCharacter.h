@@ -9,6 +9,7 @@
 
 #include "Components/StaminaComponent.h"
 #include "Components/HealthComponent.h"
+#include "Components/HungerComponent.h"
 
 #include "ReclaimersCharacter.generated.h"
 
@@ -64,8 +65,6 @@ class AReclaimersCharacter : public ACharacter
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HEALTH
-	// 
-	// /** The current health of the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent* HealthComponent;
 
@@ -76,18 +75,8 @@ class AReclaimersCharacter : public ACharacter
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HUNGER
-	
-	/** The character's current hunger */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float Hunger;
-
-	/** The character's current max hunger */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float MaxHunger;
-
-	/** The character's current hunger decay */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float HungerDecay;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UHungerComponent* HungerComponent;
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - THIRST
