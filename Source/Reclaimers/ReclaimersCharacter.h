@@ -11,6 +11,7 @@
 #include "Components/HealthComponent.h"
 #include "Components/HungerComponent.h"
 #include "Components/ThirstComponent.h"
+#include "Components/MovementStateComponent.h"
 
 #include "ReclaimersCharacter.generated.h"
 
@@ -21,15 +22,6 @@ class UInputAction;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
-
-
-UENUM(BlueprintType) // Make accessable in blueprints.
-enum class EMovementState : uint8 {
-	E_IDLE			UMETA(DisplayName = "IDLE"),	// Doing Nothing. Standing still.
-	E_WALKING		UMETA(DisplayName = "WALKING"),	// Holding any movement key, such as W, A, D, S.
-	E_RUNNING		UMETA(DisplayName = "RUNNING"),	// Holding any movement key whilst holding Shift.
-	E_OTHER			UMETA(DisplayName = "OTHER")	// Any movement not implemented yet. (Such as flying, swimming, etc)
-};
 
 UCLASS(config=Game)
 class AReclaimersCharacter : public ACharacter
@@ -86,10 +78,8 @@ class AReclaimersCharacter : public ACharacter
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - MOVEMENT
-
-	/** The current movement state of the character (such as IDLE, RUNNING, WALKING etc) */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
-	EMovementState MovementState;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
+	UMovementStateComponent* MovementStateComponent;
 
 	/** The current characters max walk speed (WALKING STATE) */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
@@ -129,27 +119,5 @@ protected: // Default protected class items by UE5 //
 
 	// APawn interface
 	FORCEINLINE virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-
-
-protected:
-	/** Sets the Characters current Health (Cannot exceed the maximum health) **/
-	// FORCEINLINE virtual void SetHealth(float Value);
-
-	/** Sets the Characters Max Health (Max - 1.000.000) **/
-	// FORCEINLINE virtual void SetMaxHealth(float Value);
-
-	/** Sets the Characters current MovementState **/
-	FORCEINLINE virtual void SetMovementState(const EMovementState& Value);
-
-public:
-	/** Returns Characters current Health **/
-	// FORCEINLINE float GetHealth() const { return Health; }
-
-	/** Returns Characters Max Health **/
-	// FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
-
-	/** Returns Characters current MovementState **/
-	FORCEINLINE enum class EMovementState GetMovementState() const { return MovementState; }
 };
 

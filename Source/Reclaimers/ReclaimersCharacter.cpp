@@ -86,9 +86,8 @@ AReclaimersCharacter::AReclaimersCharacter()
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - MOVEMENT
+	MovementStateComponent = CreateDefaultSubobject<UMovementStateComponent>(TEXT("MovementStateComponent"));
 
-	// Initialize the characters movement state and default it to idle.
-	MovementState = EMovementState::E_IDLE;
 	WalkSpeed = 300;
 	RunSpeed = WalkSpeed * 1.5;
 	AmbushSpeedMultiplier = 1.2f;
@@ -116,8 +115,10 @@ void AReclaimersCharacter::Tick(float DeltaTime)
 	
 	// Check whether the character is not moving
 	// TODO: set JUMPING State whenever the character is currently jumping.
-	if (GetVelocity().Y == 0.0f && !GetCharacterMovement()->IsFalling()) {
-		SetMovementState(EMovementState::E_IDLE);
+	if (MovementStateComponent) {
+		if (GetVelocity().Y == 0.0f && !GetCharacterMovement()->IsFalling()) {
+			MovementStateComponent->SetMovementState(EMovementState::E_IDLE);
+		}
 	}
 }
 
@@ -167,7 +168,9 @@ void AReclaimersCharacter::Move(const FInputActionValue& Value)
 		AddMovementInput(RightDirection, MovementVector.X);
 
 		// Change character movement state to walking
-		SetMovementState(EMovementState::E_WALKING);
+		if (MovementStateComponent) {
+			MovementStateComponent->SetMovementState(EMovementState::E_WALKING);
+		}
 	}
 }
 
@@ -183,8 +186,3 @@ void AReclaimersCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
-
-
-//////////////////////////////////////////////////////////////////////////
-// PropertyManagement
-void AReclaimersCharacter::SetMovementState(const EMovementState& Value) { MovementState = Value; }
