@@ -10,6 +10,7 @@
 #include "Components/StaminaComponent.h"
 #include "Components/HealthComponent.h"
 #include "Components/HungerComponent.h"
+#include "Components/ThirstComponent.h"
 
 #include "ReclaimersCharacter.generated.h"
 
@@ -80,18 +81,8 @@ class AReclaimersCharacter : public ACharacter
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - THIRST
-
-	/** The character's current thirst */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float Thirst;
-
-	/** The character's current max thirst */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float MaxThirst;
-
-	/** The character's current thirst decay */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float ThirstDecay;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	UThirstComponent* ThirstComponent;
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - MOVEMENT

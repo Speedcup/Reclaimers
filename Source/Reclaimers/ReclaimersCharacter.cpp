@@ -68,10 +68,6 @@ AReclaimersCharacter::AReclaimersCharacter()
 
 	// End of default UE5 Properties //
 
-	// Create the skeletal mesh component
-	// SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SKM_Manny")); // (TEXT("/Game/Characters/Mannequins/Meshes/SKM_Manny")) MAYBE CHANGE?!
-	// SkeletalMesh->SetupAttachment(RootComponent); // Attach to the root component
-
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - HEALTH
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
@@ -86,10 +82,7 @@ AReclaimersCharacter::AReclaimersCharacter()
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - THIRST
-
-	Thirst = 100.0f;
-	MaxThirst = 100.0f;
-	ThirstDecay = 1.0f;
+	ThirstComponent = CreateDefaultSubobject<UThirstComponent>(TEXT("ThirstComponent"));
 
 	//////////////////////////////////////////////////////////////////////////
 	// CHARACTER - MOVEMENT
@@ -114,8 +107,6 @@ void AReclaimersCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
-
-		// UUserWidget* MyWidget = CreateWidget<UUserWidget>(GetWorld(), TEXT("HUD"));
 	}
 }
 

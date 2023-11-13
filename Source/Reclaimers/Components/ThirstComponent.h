@@ -4,46 +4,42 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "StaminaComponent.generated.h"
+#include "ThirstComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class RECLAIMERS_API UStaminaComponent : public UActorComponent
+class RECLAIMERS_API UThirstComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UStaminaComponent();
+	UThirstComponent();
 
-	UFUNCTION(BlueprintCallable, Category = "Stamina")
-	void SetStamina(float NewStamina);
+	UFUNCTION(BlueprintCallable, Category = "Thirst")
+	void SetThirst(float NewThirst);
 
-	UFUNCTION(BlueprintCallable, Category = "Stamina")
-	float GetStamina() const;
+	UFUNCTION(BlueprintCallable, Category = "Thirst")
+	float GetThirst() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Stamina")
-	void SetMaxStamina(float NewStamina);
+	UFUNCTION(BlueprintCallable, Category = "Thirst")
+	void SetMaxThirst(float NewMaxThirst);
 
-	UFUNCTION(BlueprintCallable, Category = "Stamina")
-	float GetMaxStamina() const;
+	UFUNCTION(BlueprintCallable, Category = "Thirst")
+	float GetMaxThirst() const;
 
 private:
-	/** The character's current stamina */
+	/** The character's current thirst */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float Stamina;
+	float Thirst;
 
-	/** The character's current max stamina */
+	/** The character's current max thirst */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float MaxStamina;
+	float MaxThirst;
 
-	/** The character's current stamina recovery rate per (1) second */
+	/** The character's current thirst decay */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float StaminaRecovery;
-
-	/** The character's current stamina decay rate per (1) second */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
-	float StaminaDecay;
+	float ThirstDecay;
 
 protected:
 	// Called when the game starts

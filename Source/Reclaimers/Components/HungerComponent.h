@@ -23,7 +23,7 @@ public:
 	float GetHunger() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Hunger")
-	void SetMaxHunger(float Value);
+	void SetMaxHunger(float NewMaxHunger);
 
 	UFUNCTION(BlueprintCallable, Category = "Hunger")
 	float GetMaxHunger() const;
