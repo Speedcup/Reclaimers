@@ -11,6 +11,7 @@ UMovementStateComponent::UMovementStateComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	MovementState = EMovementState::E_IDLE;
+	// bIsSprinting = false;
 }
 
 
@@ -27,3 +28,9 @@ void UMovementStateComponent::SetMovementState(const EMovementState& Value) {
 }
 
 EMovementState UMovementStateComponent::GetMovementState() const { return MovementState; }
+
+bool UMovementStateComponent::IsIdle() const { return (MovementState == EMovementState::E_IDLE); }
+bool UMovementStateComponent::IsResting() const { return (MovementState == EMovementState::E_RESTING); }
+bool UMovementStateComponent::IsWalking() const { return (MovementState == EMovementState::E_WALKING); }
+bool UMovementStateComponent::IsRunning() const { return (MovementState == EMovementState::E_RUNNING); }
+bool UMovementStateComponent::IsSprinting() const { return IsRunning(); }

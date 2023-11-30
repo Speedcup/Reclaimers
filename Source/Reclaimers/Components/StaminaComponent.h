@@ -28,6 +28,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Stamina")
 	float GetMaxStamina() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Stamina")
+	float GetRecoveryRate() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Stamina")
+	float GetDecayRate() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	bool CanSprint() const;
+
+	// UFUNCTION(BlueprintCallable, Category = "Character")
+	// bool IsSprinting() const;
+
 private:
 	/** The character's current stamina */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
@@ -44,6 +56,10 @@ private:
 	/** The character's current stamina decay rate per (1) second */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
 	float StaminaDecay;
+
+	/** Whether the character is currently sprinting. Adding this to stamina, because stamina decides whether sprinting can be performed or not. */
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Status", meta = (AllowPrivateAccess = "true"))
+	// bool bIsSprinting;
 
 protected:
 	// Called when the game starts

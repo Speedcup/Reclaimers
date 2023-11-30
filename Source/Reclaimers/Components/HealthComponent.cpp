@@ -16,7 +16,9 @@ UHealthComponent::UHealthComponent() {
 
 
 // Called when the game starts
-void UHealthComponent::BeginPlay() { Super::BeginPlay(); }
+void UHealthComponent::BeginPlay() {
+	Super::BeginPlay();
+}
 
 // Called every frame
 void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) { Super::TickComponent(DeltaTime, TickType, ThisTickFunction); }
@@ -29,7 +31,9 @@ void UHealthComponent::SetHealth(float NewHealth) {
 
 	Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
 
-	// Handle death when HP == 0
+	if (NewHealth <= 0.0f) {
+		DoPlayerDeath();
+	}
 }
 
 float UHealthComponent::GetHealth() const {	return Health; }
@@ -42,3 +46,7 @@ void UHealthComponent::SetMaxHealth(float NewHealth) {
 }
 
 float UHealthComponent::GetMaxHealth() const { return MaxHealth; }
+
+//////////////////////////////////////////////////////////////////////////
+// -
+void UHealthComponent::DoPlayerDeath() {}

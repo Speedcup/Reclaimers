@@ -81,16 +81,20 @@ class AReclaimersCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
 	UMovementStateComponent* MovementStateComponent;
 
+	/** Sprint Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
+
 	/** The current characters max walk speed (WALKING STATE) */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
 	int WalkSpeed;
 
 	/** The current characters max run speed (WALKING STATE) */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
 	int RunSpeed;
 
 	/** The current characters ambush speed multiplier */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character|Movement", meta = (AllowPrivateAccess = "true"))
 	float AmbushSpeedMultiplier;
 
 
@@ -112,6 +116,10 @@ protected: // Default protected class items by UE5 //
 	/** Called for looking input */
 	FORCEINLINE void Look(const FInputActionValue& Value);
 
+	FORCEINLINE void Sprint(const FInputActionValue& Value);
+	FORCEINLINE void StopSprinting();
+	FORCEINLINE void ResetSprinting();
+
 	// To add mapping context
 	FORCEINLINE virtual void BeginPlay();
 
@@ -120,4 +128,3 @@ protected: // Default protected class items by UE5 //
 	// APawn interface
 	FORCEINLINE virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
-

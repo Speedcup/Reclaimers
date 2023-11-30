@@ -12,8 +12,10 @@ UStaminaComponent::UStaminaComponent()
 
 	Stamina = 100.0f;
 	MaxStamina = 100.0f;
-	StaminaRecovery = 2.0f;		// TODO: Add Get/Set Methods
-	StaminaDecay = 1.0f;		// TODO: Add Get/Set Methods
+	StaminaRecovery = 1.0f;		// TODO: Add Get/Set Methods
+	StaminaDecay = 5.0f;		// TODO: Add Get/Set Methods
+
+	// bIsSprinting = false;
 }
 
 
@@ -42,3 +44,22 @@ void UStaminaComponent::SetMaxStamina(float NewStamina) {
 }
 
 float UStaminaComponent::GetMaxStamina() const { return MaxStamina; }
+
+//////////////////////////////////////////////////////////////////////////
+// RECOVERY & DECAY
+float UStaminaComponent::GetRecoveryRate() const { return StaminaRecovery; }
+float UStaminaComponent::GetDecayRate() const { return StaminaDecay; }
+
+//////////////////////////////////////////////////////////////////////////
+// SPRINTING
+
+bool UStaminaComponent::CanSprint() const {
+	if (Stamina > 0.0f) {
+		return true;
+	}
+
+	return false;
+}
+
+// Is Sprinting
+// bool UStaminaComponent::IsSprinting() const { return bIsSprinting; }

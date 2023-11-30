@@ -88,10 +88,9 @@ AReclaimersCharacter::AReclaimersCharacter()
 	// CHARACTER - MOVEMENT
 	MovementStateComponent = CreateDefaultSubobject<UMovementStateComponent>(TEXT("MovementStateComponent"));
 
-	WalkSpeed = 300;
+	WalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	RunSpeed = WalkSpeed * 1.5;
 	AmbushSpeedMultiplier = 1.2f;
-
 }
 
 void AReclaimersCharacter::BeginPlay()
@@ -119,7 +118,46 @@ void AReclaimersCharacter::Tick(float DeltaTime)
 		if (GetVelocity().Y == 0.0f && !GetCharacterMovement()->IsFalling()) {
 			MovementStateComponent->SetMovementState(EMovementState::E_IDLE);
 		}
+
+		// If the character is running / sprinting, decrease / consume stamina.
+		if (MovementStateComponent->IsIdle()) {
+			if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+				UE_LOG(LogTemplateCharacter, Warning, TEXT("(IDLE) INCREASING STAMINA ..."));
+				StaminaComponent->SetStamina(
+					FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, StaminaComponent->GetRecoveryRate())
+				);
+			}
+		} // Increase Stamina by recharge rate 1x.
+		else if (MovementStateComponent->IsResting()) {
+			if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+				UE_LOG(LogTemplateCharacter, Warning, TEXT("(RESTING) INCREASING STAMINA ..."));
+				StaminaComponent->SetStamina(
+					FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, (float)(StaminaComponent->GetRecoveryRate() * 2.5))
+				);
+			}
+		} // Increase Stamina by recharge rate 2.5x
+		else if (MovementStateComponent->IsWalking()) {
+			if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+				UE_LOG(LogTemplateCharacter, Warning, TEXT("(WALKING) INCREASING STAMINA ..."));
+				StaminaComponent->SetStamina(
+					FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, (float)(StaminaComponent->GetRecoveryRate() * .5))
+				);
+			}
+		} // Increase Stamina by recharge rate 0.5x
+		else if (MovementStateComponent->IsRunning()) { // Decrease Stamina.
+			if (StaminaComponent->GetStamina() > 0.0f) {
+				UE_LOG(LogTemplateCharacter, Warning, TEXT("DECREASING STAMINA ..."));
+				StaminaComponent->SetStamina(
+					FMath::FInterpConstantTo(StaminaComponent->GetStamina(), 0.0f, DeltaTime, StaminaComponent->GetDecayRate())
+				);
+			}
+			else
+			{
+				ResetSprinting();
+			}
+		}
 	}
+	// HealthComponent->SetHealth(HealthComponent->GetHealth() - .1f);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -139,6 +177,10 @@ void AReclaimersCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AReclaimersCharacter::Look);
+
+		// Sprinting
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AReclaimersCharacter::Sprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AReclaimersCharacter::StopSprinting);
 	}
 	else
 	{
@@ -168,7 +210,7 @@ void AReclaimersCharacter::Move(const FInputActionValue& Value)
 		AddMovementInput(RightDirection, MovementVector.X);
 
 		// Change character movement state to walking
-		if (MovementStateComponent) {
+		if (MovementStateComponent && !MovementStateComponent->IsRunning()) {
 			MovementStateComponent->SetMovementState(EMovementState::E_WALKING);
 		}
 	}
@@ -184,5 +226,31 @@ void AReclaimersCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void AReclaimersCharacter::Sprint(const FInputActionValue& Value) {
+	if (StaminaComponent->CanSprint()) {
+		UE_LOG(LogTemplateCharacter, Warning, TEXT("SPRINTING - STARTED"));
+
+		MovementStateComponent->SetMovementState(EMovementState::E_RUNNING);
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	}
+}
+
+void AReclaimersCharacter::StopSprinting() {
+	UE_LOG(LogTemplateCharacter, Warning, TEXT("SPRINTING - STOPPED"));
+
+	MovementStateComponent->SetMovementState(EMovementState::E_WALKING);
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void AReclaimersCharacter::ResetSprinting() {
+	UE_LOG(LogTemplateCharacter, Warning, TEXT("SPRINTING - RESET"));
+
+	// If the character is running while he can't, abort.
+	if (MovementStateComponent->IsRunning()) {
+		UE_LOG(LogTemplateCharacter, Warning, TEXT("SPRINTING - FORCE STOPPED"));
+		StopSprinting();
 	}
 }
