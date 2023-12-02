@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "StaminaComponent.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogStaminaComponent, Log, All);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RECLAIMERS_API UStaminaComponent : public UActorComponent

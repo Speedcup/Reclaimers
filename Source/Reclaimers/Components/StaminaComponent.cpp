@@ -2,6 +2,10 @@
 
 
 #include "StaminaComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include <Reclaimers/ReclaimersCharacter.h>
+
+DEFINE_LOG_CATEGORY(LogStaminaComponent);
 
 // Sets default values for this component's properties
 UStaminaComponent::UStaminaComponent()
@@ -23,7 +27,59 @@ UStaminaComponent::UStaminaComponent()
 void UStaminaComponent::BeginPlay() { Super::BeginPlay(); }
 
 // Called every frame
-void UStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) { Super::TickComponent(DeltaTime, TickType, ThisTickFunction); }
+void UStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// Get Character Owner
+	AReclaimersCharacter* OwnerCharacter = Cast<AReclaimersCharacter>(GetOwner());
+	if (OwnerCharacter)
+	{
+		// Stamina should only recharge / consume while the character is moving on ground.
+		if (OwnerCharacter->GetCharacterMovement()->IsMovingOnGround()) {
+			if (UMovementStateComponent* movementState = OwnerCharacter->GetMovementState()) {
+				UStaminaComponent* StaminaComponent = OwnerCharacter->GetStaminaComponent();
+
+				// If the character is running / sprinting, decrease / consume stamina.
+				if (movementState->IsIdle()) {
+					if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+						UE_LOG(LogStaminaComponent, Warning, TEXT("(IDLE) INCREASING STAMINA ..."));
+						StaminaComponent->SetStamina(
+							FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, StaminaComponent->GetRecoveryRate())
+						);
+					}
+				} // Increase Stamina by recharge rate 1x.
+				else if (movementState->IsResting()) {
+					if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+						UE_LOG(LogStaminaComponent, Warning, TEXT("(RESTING) INCREASING STAMINA ..."));
+						StaminaComponent->SetStamina(
+							FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, (float)(StaminaComponent->GetRecoveryRate() * 2.5))
+						);
+					}
+				} // Increase Stamina by recharge rate 2.5x
+				else if (movementState->IsWalking()) {
+					if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
+						UE_LOG(LogStaminaComponent, Warning, TEXT("(WALKING) INCREASING STAMINA ..."));
+						StaminaComponent->SetStamina(
+							FMath::FInterpConstantTo(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina(), DeltaTime, (float)(StaminaComponent->GetRecoveryRate() * .5))
+						);
+					}
+				} // Increase Stamina by recharge rate 0.5x
+				else if (movementState->IsRunning()) { // Decrease Stamina.
+					if (StaminaComponent->GetStamina() > 0.0f) {
+						UE_LOG(LogStaminaComponent, Warning, TEXT("DECREASING STAMINA ..."));
+						StaminaComponent->SetStamina(
+							FMath::FInterpConstantTo(StaminaComponent->GetStamina(), 0.0f, DeltaTime, StaminaComponent->GetDecayRate())
+						);
+					}
+					else
+					{
+						// ResetSprinting();
+					}
+				}
+			}
+		}
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////
 // STAMINA

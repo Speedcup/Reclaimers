@@ -106,6 +106,11 @@ public: // Default public class functions by UE5 //
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	/** Returns the Characters Movement State Component **/
+	FORCEINLINE class UMovementStateComponent* GetMovementState() const { return MovementStateComponent; }
+	/** Returns the Characters Stamina Component **/
+	FORCEINLINE class UStaminaComponent* GetStaminaComponent() const { return StaminaComponent; }
 	
 
 protected: // Default protected class items by UE5 //

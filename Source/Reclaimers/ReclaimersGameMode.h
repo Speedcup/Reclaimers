@@ -14,6 +14,3 @@ class AReclaimersGameMode : public AGameModeBase
 public:
 	AReclaimersGameMode();
 };
-
-
-

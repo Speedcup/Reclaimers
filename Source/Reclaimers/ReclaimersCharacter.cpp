@@ -12,6 +12,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
+#include "ThirdParty/Discord/discord.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 
@@ -21,6 +23,9 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //				This C++ Character is used as base of the BP equivalent.
 //				The BP Character is used for mesh and asset management.
 /*																			*/
+
+/* Discord Integration */
+discord::Core* core{};
 
 //////////////////////////////////////////////////////////////////////////
 // AReclaimersCharacter
@@ -106,12 +111,22 @@ void AReclaimersCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	/* Discord Integration */
+	auto result = discord::Core::Create(1180436830961815552, DiscordCreateFlags_Default, &core);
+	discord::Activity activity{};
+	activity.SetState("Testing");
+	activity.SetDetails("Fruit Loops");
+	core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }
 
 void AReclaimersCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
+	/* Discord Integration */
+	::core->RunCallbacks();
+
 	// Check whether the character is not moving
 	// TODO: set JUMPING State whenever the character is currently jumping.
 	if (MovementStateComponent) {
@@ -119,6 +134,7 @@ void AReclaimersCharacter::Tick(float DeltaTime)
 			MovementStateComponent->SetMovementState(EMovementState::E_IDLE);
 		}
 
+		/*
 		// If the character is running / sprinting, decrease / consume stamina.
 		if (MovementStateComponent->IsIdle()) {
 			if (StaminaComponent->GetStamina() < StaminaComponent->GetMaxStamina()) {
@@ -156,6 +172,7 @@ void AReclaimersCharacter::Tick(float DeltaTime)
 				ResetSprinting();
 			}
 		}
+		*/
 	}
 	// HealthComponent->SetHealth(HealthComponent->GetHealth() - .1f);
 }
